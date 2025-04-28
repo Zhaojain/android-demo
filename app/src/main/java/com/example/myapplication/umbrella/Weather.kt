@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.umbrella
 
 class Weather {
     fun isSunny():Boolean{
