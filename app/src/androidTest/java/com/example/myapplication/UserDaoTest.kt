@@ -59,14 +59,23 @@ class UserDaoTest {
     fun insertUsers()= runBlocking {
         val user1= User(name="Allen", email = "allen@gmail.com")
         val user2= User(name="Bob", email = "bob@gmail.com")
-        userDao.insert(listOf(user1,user2))
+        userDao.insertUsers(listOf(user1,user2))
         val users= userDao.getUsers()
         Assert.assertEquals(2,users.size)
         Assert.assertEquals("Allen",users[0].name)
         Assert.assertEquals("Bob",users[1].name)
     }
     @Test
-    fun updata()= runBlocking {
-        val user1=User(name = "Allen")
+    fun update()= runBlocking {
+        val user1=User(name = "Allen", email = "allen@gmail.com")
+        userDao.insert(user1)
+        val insertUser= userDao.getUsers().first()
+        val updateUser=User(id = insertUser.id, name = "David", email = "david@gmail.com")
+        userDao.update(updateUser)
+
+        val retrievedUser=userDao.getUserById(insertUser.id)
+        Assert.assertNotNull(retrievedUser)
+        Assert.assertEquals("David",retrievedUser?.name)
+        Assert.assertEquals("david@gmail.com",retrievedUser?.email)
     }
 }
